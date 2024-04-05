@@ -85,7 +85,7 @@ export default function Home({ params }) {
                             <Category heading='cast' />
                         </div>
                         <div className="flex gap-2 flex-wrap justify-between">
-                            {cast.map(person => <Person src={person.profile_path == null ? '/person-placeholder.jpg' : `https://image.tmdb.org/t/p/original/${person.profile_path}`} name={person.name} />)}
+                            {cast.map((person, i) => <Person key={i} src={person.profile_path == null ? '/person-placeholder.jpg' : `https://image.tmdb.org/t/p/original/${person.profile_path}`} name={person.name} />)}
                         </div>
                     </div>
                 </article>
