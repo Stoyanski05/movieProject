@@ -37,8 +37,8 @@ export default function Home() {
     <>
       <header className="h-[100px] mb-2">
         <div className="flex justify-between h-full items-center w-2/3 px-6 float-right">
-          <h1 className="text-2xl font-bold text-gray-800">MyMovie</h1>
-          <Toggle />
+          <h1 className="text-2xl font-bold">MyMovie</h1>
+          <Toggle element={document.body}/>
         </div>
       </header>
       <main className="flex flex-col gap-6 m-auto">
