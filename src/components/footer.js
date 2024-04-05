@@ -10,7 +10,7 @@ export default function Footer() {
                     <FontAwesomeIcon icon={faClapperboard} size="2x" className="text-blue-950 cursor-pointer hover:scale-105"/>
                 </li>
                 <li>
-                    <FontAwesomeIcon icon={faTicket} size="2x" className="cursor-pointer hover:scale-105"/>
+                    <FontAwesomeIcon icon={faTicket} size="2x" className="cursor-pointer hover:scale-105 rotate-90"/>
                 </li>
                 <li>
                     <FontAwesomeIcon icon={faBookmark} size="2x" className="cursor-pointer hover:scale-105"/>

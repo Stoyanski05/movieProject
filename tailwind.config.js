@@ -5,5 +5,10 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  theme: {
+    fontFamily: {
+      'merriweather': ['Merriweather'],
+    }
+  },
   plugins: [],
 };

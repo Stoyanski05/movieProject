@@ -5,11 +5,13 @@ import Footer from "@/components/footer";
 import Toggle from "@/components/toggle";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faClock } from "@fortawesome/free-solid-svg-icons";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Rating from "@/components/rating";
+import Genre from "@/components/genre";
 
 
 export default function Home() {
@@ -39,9 +41,11 @@ export default function Home() {
       </header>
       <main className="flex flex-col gap-6 m-auto">
         <div className="flex flex-col gap-4">
-          <Category heading="now showing" />
+          <section className="flex justify-between w-[90%] m-auto">
+            <Category heading="now showing" />
+          </section>
           <article className="flex gap-4 pl-6">
-            {popular.map((movie) => {
+            {trending.map((movie) => {
               return (
                 <Image key={movie.id} src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} height={200} width={180} alt="movie" className="rounded-md" />
               )
@@ -49,22 +53,21 @@ export default function Home() {
           </article>
         </div>
         <div className="flex flex-col gap-4">
-          <Category heading="popular" />
+          <section className="flex justify-between w-[90%] m-auto">
+            <Category heading="popular" />
+          </section>
           <article className="flex flex-col gap-4 pl-6">
-            {trending.map((movie) => {
+            {popular.map((movie) => {
               return (
-                <Link href={`/${movie.id}`} key={movie.id} className="flex gap-2">
-                  <Image src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} height={100} width={125} className="rounded-md" alt="movie" />
-                  <div className="flex flex-col justify-between py-4 w-3/5">
+                <Link href={`/${movie.id}`} key={movie.id} className="flex gap-2 h-40">
+                  <Image src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} height={100} width={120} className="rounded-md object-cover" alt="movie" />
+                  <div className="flex flex-col justify-evenly w-3/4">
                     <h2 className="font-bold">{movie.title}</h2>
-                    <div className="flex items-center gap-4">
-                      <FontAwesomeIcon icon={faStar} className="text-yellow-400" />
-                      <span className="text-gray-400">{Math.round(movie.vote_average)}/10 IMDb</span>
+                    <div className="flex items-center gap-2">
+                      <Rating rating={movie.vote_average} />
                     </div>
-                    <div className="flex gap-2">
-                      <span className="py-1 w-1/3 text-center bg-blue-300 text-blue-600 rounded-2xl">Horror</span>
-                      <span className="py-1 w-1/3 text-center bg-blue-300 text-blue-600 rounded-2xl">Horror</span>
-                      <span className="py-1 w-1/3 text-center bg-blue-300 text-blue-600 rounded-2xl">Horror</span>
+                    <div className="flex flex-wrap gap-2">
+                      <Genre ids={movie?.genre_ids} />
                     </div>
                     <span className="flex items-center gap-2">
                       <FontAwesomeIcon icon={faClock} />
