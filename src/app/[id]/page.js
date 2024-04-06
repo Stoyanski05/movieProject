@@ -51,7 +51,7 @@ export default function Home({ params }) {
             <main>
                 {/* turn into custom video player */}
                 <iframe allowFullScreen className="w-full h-[40vh]"
-                    src={`https://www.youtube.com/embed/${trailer[3] && trailer[3].key}`}>
+                    src={trailer[3] ? `https://www.youtube.com/embed/${trailer[3].key}` : ''}>
                 </iframe>
                 <article ref={ref} className="absolute top-1/3 w-full bg-white rounded-lg p-10 flex flex-col gap-6">
                     <article className="flex justify-between">
