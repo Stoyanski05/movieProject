@@ -10,7 +10,6 @@ import Toggle from "@/components/toggle"
 import Rating from "@/components/rating"
 import Category from "@/components/category"
 import Person from "@/components/person"
-import Genre from "@/components/genre"
 import Runtime from "@/components/runtime"
 
 export default function Home({ params }) {
