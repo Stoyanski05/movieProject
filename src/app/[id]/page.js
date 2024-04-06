@@ -62,7 +62,7 @@ export default function Home({ params }) {
                         <Rating rating={movie.vote_average} />
                     </div>
                     <div className="flex gap-2">
-                        <Genre ids={movie.genres.map(obj => obj.id)}/>
+                        <Genre ids={movie.genres ? movie.genres.map(obj => obj.id) : [0]}/>
                     </div>
                     <div className="flex justify-between w-3/4">
                         <section className="flex flex-col gap-2">
