@@ -15,7 +15,7 @@ import Genre from "@/components/genre"
 
 export default function Home({ params }) {
     const ref = useRef(null)
-    const [isRef, setIsRef] = useState(false)
+    const [isRef, setIsRef] = useState(false) // fix so it uses ref instead of this
 
     const [movie, setMovie] = useState({})
     const [trailer, setTrailer] = useState([])

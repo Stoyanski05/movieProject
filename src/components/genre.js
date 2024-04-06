@@ -1,7 +1,5 @@
 "use client"
 
-import { useEffect, useState } from "react"
-
 export default function Genre({ ids }) {
     const genres = {
         Action: 28,

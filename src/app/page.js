@@ -26,6 +26,7 @@ export default function Home() {
       const trendingRes = await fetch('https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b')
       const trendingData = await trendingRes.json()
 
+      // Descendingly sort the higher rated movies
       popularData.results.sort((a, b) => b.vote_average - a.vote_average)
       
       setPopular(popularData.results)
