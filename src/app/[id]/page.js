@@ -81,7 +81,7 @@ export default function Home({ params }) {
                     </div>
                     <article>
                         <h2 className="capitalize text-2xl font-bold">description</h2>
-                        <p>{movie.overview}</p>
+                        <p className="text-[#9C9C9C]">{movie.overview}</p>
                     </article>
                     <div className="flex flex-col gap-4">
                         <div className="flex justify-between">
