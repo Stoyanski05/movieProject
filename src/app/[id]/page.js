@@ -79,7 +79,7 @@ export default function Home({ params }) {
                             <span className="uppercase font-bold">pg-13</span>
                         </section>
                     </div>
-                    <article>
+                    <article className="flex flex-col gap-3">
                         <h2 className="capitalize text-2xl font-bold">description</h2>
                         <p className="text-[#9C9C9C]">{movie.overview}</p>
                     </article>
