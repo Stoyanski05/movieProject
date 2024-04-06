@@ -11,6 +11,7 @@ import Rating from "@/components/rating"
 import Category from "@/components/category"
 import Person from "@/components/person"
 import Runtime from "@/components/runtime"
+import Genre from "@/components/genre"
 
 export default function Home({ params }) {
     const ref = useRef(null)
@@ -45,7 +46,7 @@ export default function Home({ params }) {
                 <Link className="text-white" href="/">
                     <FontAwesomeIcon icon={faArrowLeft} size="2xl" />
                 </Link>
-                {isRef ? <Toggle element={ref.current}/> : <p>404</p>}
+                {isRef ? <Toggle element={ref.current} /> : <p>404</p>}
             </header>
             <main>
                 {/* turn into custom video player */}
@@ -60,9 +61,8 @@ export default function Home({ params }) {
                     <div className="flex items-center gap-2">
                         <Rating rating={movie.vote_average} />
                     </div>
-                    {/* turn into component - genre */}
                     <div className="flex gap-2">
-                        {/* <Genre ids={movie?.genres?.map(obj => obj.id)}/> */}
+                        <Genre ids={movie.genres.map(obj => obj.id)}/>
                     </div>
                     <div className="flex justify-between w-3/4">
                         <section className="flex flex-col gap-2">
