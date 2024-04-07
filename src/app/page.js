@@ -52,7 +52,7 @@ export default function Home() {
           <section className="flex justify-between w-[90%] m-auto">
             <Category heading="now showing" />
           </section>
-          <article className="flex gap-4 pl-6 h-[300px] overflow-x-scroll slider">
+          <article className="flex gap-4 pl-6 h-[365px] overflow-x-scroll overflow-y-hidden slider">
             <Slider array={trending}/>
           </article>
         </div>
