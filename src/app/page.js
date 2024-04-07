@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Rating from "@/components/rating";
 import Genre from "@/components/genre";
@@ -17,6 +17,9 @@ import Genre from "@/components/genre";
 export default function Home() {
   const [popular, setPopular] = useState([])
   const [trending, setTrending] = useState([])
+
+  const ref = useRef(null)
+  const [isRef, setIsRef] = useState(false) // fix so it uses ref instead of this
 
   useEffect(() => {
     (async () => {
@@ -28,18 +31,19 @@ export default function Home() {
 
       // Descendingly sort the higher rated movies
       popularData.results.sort((a, b) => b.vote_average - a.vote_average)
-      
+
+      setIsRef(!isRef)
       setPopular(popularData.results)
       setTrending(trendingData.results)
     })()
   }, [])
 
   return (
-    <>
+    <div ref={ref} className="bg-white">
       <header className="h-[100px] mb-2">
         <div className="flex justify-between h-full items-center w-2/3 px-6 float-right">
           <h1 className="text-2xl font-bold">MyMovie</h1>
-          <Toggle element={document.body}/>
+          {isRef && <Toggle element={ref.current} />}
         </div>
       </header>
       <main className="flex flex-col gap-6 m-auto">
@@ -84,6 +88,6 @@ export default function Home() {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
