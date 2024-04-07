@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Rating from "@/components/rating";
 import Genre from "@/components/genre";
+import Slider from "@/components/slider";
 
 
 export default function Home() {
@@ -51,12 +52,8 @@ export default function Home() {
           <section className="flex justify-between w-[90%] m-auto">
             <Category heading="now showing" />
           </section>
-          <article className="flex gap-4 pl-6">
-            {trending.map((movie) => {
-              return (
-                <Image key={movie.id} src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} height={200} width={180} alt="movie" className="rounded-md" />
-              )
-            })}
+          <article className="flex gap-4 pl-6 h-[300px] overflow-x-scroll slider">
+            <Slider array={trending}/>
           </article>
         </div>
         <div className="flex flex-col gap-4">
