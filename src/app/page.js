@@ -70,7 +70,6 @@ export default function Home() {
                     <div className="flex items-center gap-2">
                       <Rating rating={movie?.vote_average} />
                     </div>
-                    {console.log(movie?.genre_ids.length)}
                     <div className={`flex flex-nowrap gap-2 pr-12 ${movie?.genre_ids.length > 3 ? '' : 'overflow-x-hidden'} overflow-y-hidden`}>
                       <Genre ids={movie?.genre_ids}/>
                     </div>
