@@ -24,10 +24,10 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      const popularRes = await fetch('https://api.themoviedb.org/3/movie/popular?api_key=d61d03c4897622853f09d1e0b7a41c5b&page=1')
+      const popularRes = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=d61d03c4897622853f09d1e0b7a41c5b&page=1`)
       const popularData = await popularRes.json()
 
-      const trendingRes = await fetch('https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b')
+      const trendingRes = await fetch(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`)
       const trendingData = await trendingRes.json()
 
       // Descendingly sort the higher rated movies
@@ -63,12 +63,12 @@ export default function Home() {
           <article className="flex flex-col gap-4 pl-6">
             {popular.map((movie) => {
               return (
-                <Link href={`/${movie.id}`} key={movie.id} className="flex gap-2 h-40">
-                  <Image src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} height={100} width={120} className="rounded-md object-cover" alt="movie" />
+                <Link href={`/${movie?.id}`} key={movie?.id} className="flex gap-2 h-40">
+                  <Image src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`} height={100} width={120} className="rounded-md object-cover" alt="movie" />
                   <div className="flex flex-col justify-evenly w-3/4">
-                    <h2 className="font-bold">{movie.title}</h2>
+                    <h2 className="font-bold">{movie?.title}</h2>
                     <div className="flex items-center gap-2">
-                      <Rating rating={movie.vote_average} />
+                      <Rating rating={movie?.vote_average} />
                     </div>
                     <div className="flex flex-wrap gap-2">
                       <Genre ids={movie?.genre_ids} />
