@@ -3,16 +3,17 @@
 import Category from "@/components/category";
 import Footer from "@/components/footer";
 import Toggle from "@/components/toggle";
+import Rating from "@/components/rating";
+import Genre from "@/components/genre";
+import Slider from "@/components/slider";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+
+import Image from "next/image";
 import Link from "next/link";
-import Rating from "@/components/rating";
-import Genre from "@/components/genre";
-import Slider from "@/components/slider";
 
 
 export default function Home() {
