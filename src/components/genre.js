@@ -29,10 +29,8 @@ export default function Genre({ ids }) {
     }
 
     return (
-        <>
-            {ids.map(id => {
-                return <span key={id} className="py-1 px-4 min-w-fit text-center bg-[#DBE3FF] text-[#88A4E8] rounded-2xl">{getKeyByValue(genres, id)}</span>
-            })}
-        </>
+        ids.map(id => {
+            return <span key={id} className="py-1 px-3 min-w-fit text-center bg-[#DBE3FF] text-[#88A4E8] rounded-2xl">{getKeyByValue(genres, id)}</span>
+        })
     )
 }

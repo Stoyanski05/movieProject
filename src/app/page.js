@@ -13,7 +13,6 @@ import Link from "next/link";
 import Rating from "@/components/rating";
 import Genre from "@/components/genre";
 import Slider from "@/components/slider";
-import GenreSlider from "@/components/genreSlider";
 
 
 export default function Home() {
@@ -61,7 +60,7 @@ export default function Home() {
           <section className="flex justify-between w-[90%] m-auto">
             <Category heading="popular" />
           </section>
-          <article className="flex flex-col gap-4 pl-6 overflow-x-hidden">
+          <article className="flex flex-col w-full gap-4 pl-6 overflow-x-hidden">
             {popular.map((movie) => {
               return (
                 <Link href={`/${movie?.id}`} key={movie?.id} className="flex gap-2 h-40">
@@ -71,9 +70,9 @@ export default function Home() {
                     <div className="flex items-center gap-2">
                       <Rating rating={movie?.vote_average} />
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      {/* {<Genre ids={movie?.genre_ids}  />} */}
-                      <GenreSlider ids={movie?.genre_ids}/>
+                    {console.log(movie?.genre_ids.length)}
+                    <div className={`flex flex-nowrap gap-2 pr-12 ${movie?.genre_ids.length > 3 ? '' : 'overflow-x-hidden'} overflow-y-hidden`}>
+                      <Genre ids={movie?.genre_ids}/>
                     </div>
                     <span className="flex items-center gap-2">
                       <FontAwesomeIcon icon={faClock} />
