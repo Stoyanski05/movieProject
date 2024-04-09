@@ -3,15 +3,14 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowLeft, faBookmark } from "@fortawesome/free-solid-svg-icons"
-
 import Toggle from "@/components/toggle"
 import Rating from "@/components/rating"
 import Category from "@/components/category"
 import Person from "@/components/person"
 import Runtime from "@/components/runtime"
 import Genre from "@/components/genre"
+
+import { FaArrowLeft, FaRegBookmark } from "react-icons/fa6"
 
 export default function Home({ params }) {
     const ref = useRef(null)
@@ -44,25 +43,24 @@ export default function Home({ params }) {
         <>
             <header className="absolute flex justify-between items-center h-[20%] w-full px-6">
                 <Link className="text-white" href="/">
-                    <FontAwesomeIcon icon={faArrowLeft} size="2xl" />
+                    <FaArrowLeft size={30} />
                 </Link>
-                {isRef ? <Toggle element={ref.current} /> : <p>404</p>}
+                {isRef ? <Toggle element={ref.current} /> : ''}
             </header>
             <main>
-                {/* turn into custom video player */}
                 <iframe allowFullScreen className="w-full h-[40vh]"
                     src={trailer[3] ? `https://www.youtube.com/embed/${trailer[3].key}` : ''}>
                 </iframe>
                 <article ref={ref} className="absolute top-1/3 w-full bg-white rounded-lg p-10 flex flex-col gap-6">
                     <article className="flex justify-between">
                         <h1 className="text-2xl w-3/4">{movie.original_title}</h1>
-                        <FontAwesomeIcon icon={faBookmark} size="2xl" />
+                        <FaRegBookmark size={25} />
                     </article>
                     <div className="flex items-center gap-2">
                         <Rating rating={movie.vote_average} />
                     </div>
                     <div className="flex gap-2">
-                        <Genre ids={movie.genres ? movie.genres.map(obj => obj.id) : [0]}/>
+                        <Genre ids={movie.genres ? movie.genres.map(obj => obj.id) : [0]} />
                     </div>
                     <div className="flex justify-between w-3/4">
                         <section className="flex flex-col gap-2">

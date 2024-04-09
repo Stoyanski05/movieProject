@@ -7,13 +7,12 @@ import Rating from "@/components/rating";
 import Genre from "@/components/genre";
 import Slider from "@/components/slider";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
-
 import { useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
+
+import { FaClock } from "react-icons/fa6";
 
 
 export default function Home() {
@@ -75,7 +74,7 @@ export default function Home() {
                       <Genre ids={movie?.genre_ids}/>
                     </div>
                     <span className="flex items-center gap-2">
-                      <FontAwesomeIcon icon={faClock} />
+                      <FaClock/>
                       1h 10min
                     </span>
                   </div>
@@ -85,7 +84,7 @@ export default function Home() {
           </article>
         </div>
       </main>
-      <Footer />
+      <Footer page={'home'}/>
     </div>
   );
 }
