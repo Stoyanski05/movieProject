@@ -74,7 +74,7 @@ export default function Home({ params }) {
                 <Link className="text-white" href="/">
                     <FaArrowLeft size={30} />
                 </Link>
-                {isRef ? <Toggle element={ref.current} /> : ''}
+                {ref.current && <Toggle element={ref.current} />}
             </header>
             <main>
                 <iframe allowFullScreen className="w-full h-[40vh]"
@@ -84,7 +84,7 @@ export default function Home({ params }) {
                     <article className="flex justify-between">
                         <h1 className="text-2xl w-3/4">{movie.original_title}</h1>
                         <div ref={bookmarkRef} onClick={bookmarkHandler}>
-                            {bookmarked ? <FaBookmark size={25}/> : <FaRegBookmark size={25} />}
+                            {bookmarked ? <FaBookmark size={25} /> : <FaRegBookmark size={25} />}
                         </div>
                     </article>
                     <div className="flex items-center gap-2">

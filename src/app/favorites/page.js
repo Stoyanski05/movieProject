@@ -4,13 +4,16 @@ import Category from "@/components/category"
 import Footer from "@/components/footer"
 import Genre from "@/components/genre"
 import Rating from "@/components/rating"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { FaClock } from "react-icons/fa6"
 import Image from 'next/image'
+import Toggle from "@/components/toggle"
 
 export default function Home() {
     const [favorites, setFavorites] = useState([])
     const [loader, setLoader] = useState(false)
+    const [isRef, setIsRef] = useState(false)
+    const ref = useRef(null)
 
     useEffect(() => {
         (async () => {
@@ -34,18 +37,17 @@ export default function Home() {
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
                 },
                 body: JSON.stringify({ media_type: 'movie', media_id: e.target.dataset.id, favorite: false })
-            }).then(res => res.json()).then(json => console.log(json))
+            }).then(res => res.json()).then(json => setLoader(!loader))
         })()
-
-        setLoader(!loader)
     }
 
     return (
-        <div className="flex flex-col gap-10 justify-center bg-white items-center overflow-x-hidden px-2">
-            <header className="flex justify-center items-center h-20 m-auto">
+        <div ref={ref} className="bg-white items-center overflow-x-hidden h-screen">
+            <header className="flex justify-center gap-10 items-center h-20 px-10 mb-10 m-auto">
                 <h1 className="text-center text-2xl font-bold">MyMovie</h1>
+                {ref.current && <Toggle element={ref.current} />}
             </header>
-            <main className="flex flex-col gap-4">
+            <main className="flex flex-col gap-4 px-10">
                 <div className="flex justify-between w-full">
                     <Category heading={'Favorites'} />
                 </div>

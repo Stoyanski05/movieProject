@@ -20,7 +20,6 @@ export default function Home() {
   const [trending, setTrending] = useState([])
 
   const ref = useRef(null)
-  const [isRef, setIsRef] = useState(false) // fix so it uses ref instead of this
 
   useEffect(() => {
     (async () => {
@@ -33,7 +32,6 @@ export default function Home() {
       // Descendingly sort the higher rated movies
       popularData.results.sort((a, b) => b.vote_average - a.vote_average)
 
-      setIsRef(!isRef)
       setPopular(popularData.results)
       setTrending(trendingData.results)
     })()
@@ -44,7 +42,7 @@ export default function Home() {
       <header className="h-[100px] mb-2">
         <div className="flex justify-between h-full items-center w-2/3 px-6 float-right">
           <h1 className="text-2xl font-bold">MyMovie</h1>
-          {isRef && <Toggle element={ref.current} />}
+          {ref.current && <Toggle element={ref.current}/>}
         </div>
       </header>
       <main className="flex flex-col gap-6 m-auto">
