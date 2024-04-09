@@ -10,19 +10,30 @@ import Person from "@/components/person"
 import Runtime from "@/components/runtime"
 import Genre from "@/components/genre"
 
-import { FaArrowLeft, FaRegBookmark } from "react-icons/fa6"
+import { FaArrowLeft, FaBookmark, FaRegBookmark } from "react-icons/fa6"
 
 export default function Home({ params }) {
     const bookmarkRef = useRef(null)
     const ref = useRef(null)
     const [isRef, setIsRef] = useState(false) // fix so it uses ref instead of this
 
+    const [bookmarked, setBookmarked] = useState(false)
     const [movie, setMovie] = useState({})
     const [trailer, setTrailer] = useState([])
     const [cast, setCast] = useState([])
 
     useEffect(() => {
         (async () => {
+            await fetch('https://api.themoviedb.org/3/account/17339790/favorite/movies?language=en-US&page=1&sort_by=created_at.asc', {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
+                }
+            }).then(res => res.json()).then(data => data.results.map(obj => {
+                if (obj.id == Number(params.id)) setBookmarked(true)
+            }))
+
             const movieRes = await fetch(`https://api.themoviedb.org/3/movie/${params.id}?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`, { cache: "force-cache" })
             const movieData = await movieRes.json()
 
@@ -39,21 +50,9 @@ export default function Home({ params }) {
         })()
     }, [])
 
-    function bookmarkHandler() {
+    function bookmarkHandler(e) {
         (async () => {
-            // const favoriteRes = await fetch('https://api.themoviedb.org/3/account/17339790/favorite', {
-            //     method: "POST",
-            //     headers: {
-            //         Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0",
-            //     },
-            //     body: JSON.stringify({media_type: 'movie', media_id: 550, favorite: true})
-            // })
-            // const favoriteData = await favoriteRes.json()
-
-            // console.log(favoriteData);
-
-            const url = 'https://api.themoviedb.org/3/account/17339790/favorite';
-            const options = {
+            await fetch('https://api.themoviedb.org/3/account/17339790/favorite', {
                 method: 'POST',
                 headers: {
                     accept: 'application/json',
@@ -61,12 +60,7 @@ export default function Home({ params }) {
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
                 },
                 body: JSON.stringify({ media_type: 'movie', media_id: params.id, favorite: true })
-            };
-
-            await fetch(url, options)
-                .then(res => res.json())
-                .then(json => console.log(json))
-                .catch(err => console.error('error:' + err));
+            }).then(res => res.json()).then(json => console.log(json))
         })()
     }
 
@@ -86,7 +80,7 @@ export default function Home({ params }) {
                     <article className="flex justify-between">
                         <h1 className="text-2xl w-3/4">{movie.original_title}</h1>
                         <div ref={bookmarkRef} onClick={bookmarkHandler}>
-                            <FaRegBookmark size={25} />
+                            {bookmarked ? <FaBookmark size={25}/> : <FaRegBookmark size={25} />}
                         </div>
                     </article>
                     <div className="flex items-center gap-2">
@@ -119,7 +113,7 @@ export default function Home({ params }) {
                             <Category heading='cast' />
                         </div>
                         <div className="flex gap-2 flex-wrap justify-between">
-                            {cast.map((person, i) => <Person key={i} src={person.profile_path == null ? '/person-placeholder.jpg' : `https://image.tmdb.org/t/p/original/${person.profile_path}`} name={person.name} />)}
+                            {cast?.map((person, i) => <Person key={i} src={person.profile_path == null ? '/person-placeholder.jpg' : `https://image.tmdb.org/t/p/original/${person.profile_path}`} name={person.name} />)}
                         </div>
                     </div>
                 </article>
