@@ -17,6 +17,8 @@ export default function Home({ params }) {
     const ref = useRef(null)
     const [isRef, setIsRef] = useState(false) // fix so it uses ref instead of this
 
+    const [loader, setLoader] = useState(false)
+
     const [bookmarked, setBookmarked] = useState(false)
     const [movie, setMovie] = useState({})
     const [trailer, setTrailer] = useState([])
@@ -48,7 +50,7 @@ export default function Home({ params }) {
             setTrailer(trailerData.results)
             setCast(castData.credits.cast);
         })()
-    }, [])
+    }, [loader])
 
     function bookmarkHandler(e) {
         (async () => {
@@ -61,6 +63,8 @@ export default function Home({ params }) {
                 },
                 body: JSON.stringify({ media_type: 'movie', media_id: params.id, favorite: true })
             }).then(res => res.json()).then(json => console.log(json))
+
+            setLoader(!loader)
         })()
     }
 
