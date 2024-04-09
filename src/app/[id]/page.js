@@ -13,6 +13,7 @@ import Genre from "@/components/genre"
 import { FaArrowLeft, FaRegBookmark } from "react-icons/fa6"
 
 export default function Home({ params }) {
+    const bookmarkRef = useRef(null)
     const ref = useRef(null)
     const [isRef, setIsRef] = useState(false) // fix so it uses ref instead of this
 
@@ -21,15 +22,14 @@ export default function Home({ params }) {
     const [cast, setCast] = useState([])
 
     useEffect(() => {
-
         (async () => {
-            const movieRes = await fetch(`https://api.themoviedb.org/3/movie/${params.id}?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`)
+            const movieRes = await fetch(`https://api.themoviedb.org/3/movie/${params.id}?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`, { cache: "force-cache" })
             const movieData = await movieRes.json()
 
-            const trailerRes = await fetch(`https://api.themoviedb.org/3/movie/${params.id}/videos?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`)
+            const trailerRes = await fetch(`https://api.themoviedb.org/3/movie/${params.id}/videos?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`, { cache: "force-cache" })
             const trailerData = await trailerRes.json()
 
-            const castRes = await fetch(`https://api.themoviedb.org/3/movie/${params.id}?api_key=d61d03c4897622853f09d1e0b7a41c5b&language=en-US&append_to_response=credits`)
+            const castRes = await fetch(`https://api.themoviedb.org/3/movie/${params.id}?api_key=d61d03c4897622853f09d1e0b7a41c5b&language=en-US&append_to_response=credits`, { cache: "force-cache" })
             const castData = await castRes.json()
 
             setIsRef(!isRef)
@@ -38,6 +38,37 @@ export default function Home({ params }) {
             setCast(castData.credits.cast);
         })()
     }, [])
+
+    function bookmarkHandler() {
+        (async () => {
+            // const favoriteRes = await fetch('https://api.themoviedb.org/3/account/17339790/favorite', {
+            //     method: "POST",
+            //     headers: {
+            //         Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0",
+            //     },
+            //     body: JSON.stringify({media_type: 'movie', media_id: 550, favorite: true})
+            // })
+            // const favoriteData = await favoriteRes.json()
+
+            // console.log(favoriteData);
+
+            const url = 'https://api.themoviedb.org/3/account/17339790/favorite';
+            const options = {
+                method: 'POST',
+                headers: {
+                    accept: 'application/json',
+                    'content-type': 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
+                },
+                body: JSON.stringify({ media_type: 'movie', media_id: params.id, favorite: true })
+            };
+
+            await fetch(url, options)
+                .then(res => res.json())
+                .then(json => console.log(json))
+                .catch(err => console.error('error:' + err));
+        })()
+    }
 
     return (
         <>
@@ -54,7 +85,9 @@ export default function Home({ params }) {
                 <article ref={ref} className="absolute top-1/3 w-full bg-white rounded-lg p-10 flex flex-col gap-6">
                     <article className="flex justify-between">
                         <h1 className="text-2xl w-3/4">{movie.original_title}</h1>
-                        <FaRegBookmark size={25} />
+                        <div ref={bookmarkRef} onClick={bookmarkHandler}>
+                            <FaRegBookmark size={25} />
+                        </div>
                     </article>
                     <div className="flex items-center gap-2">
                         <Rating rating={movie.vote_average} />

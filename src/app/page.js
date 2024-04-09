@@ -24,10 +24,10 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      const popularRes = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=d61d03c4897622853f09d1e0b7a41c5b&page=1`)
+      const popularRes = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=d61d03c4897622853f09d1e0b7a41c5b&page=1`, {cache: "force-cache"})
       const popularData = await popularRes.json()
 
-      const trendingRes = await fetch(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`)
+      const trendingRes = await fetch(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`, {cache: "force-cache"})
       const trendingData = await trendingRes.json()
 
       // Descendingly sort the higher rated movies
