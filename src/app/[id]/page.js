@@ -26,16 +26,6 @@ export default function Home({ params }) {
 
     useEffect(() => {
         (async () => {
-            // await fetch('https://api.themoviedb.org/3/account/17339790/favorite/movies?language=en-US&page=1&sort_by=created_at.asc', {
-            //     method: 'GET',
-            //     headers: {
-            //         accept: 'application/json',
-            //         Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
-            //     }
-            // }).then(res => res.json()).then(data => data.results.map(obj => {
-            //     if (obj.id == Number(params.id)) setBookmarked(true)
-            // }))
-
             const movieRes = await fetch(`https://api.themoviedb.org/3/movie/${params.id}?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`, { cache: "force-cache" })
             const movieData = await movieRes.json()
 
