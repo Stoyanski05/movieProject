@@ -15,7 +15,6 @@ import { FaArrowLeft, FaBookmark, FaRegBookmark } from "react-icons/fa6"
 export default function Home({ params }) {
     const bookmarkRef = useRef(null)
     const ref = useRef(null)
-    const [isRef, setIsRef] = useState(false) // fix so it uses ref instead of this
 
     const [loader, setLoader] = useState(false)
 
@@ -35,7 +34,6 @@ export default function Home({ params }) {
             const castRes = await fetch(`https://api.themoviedb.org/3/movie/${params.id}?api_key=d61d03c4897622853f09d1e0b7a41c5b&language=en-US&append_to_response=credits`, { cache: "force-cache" })
             const castData = await castRes.json()
 
-            setIsRef(!isRef)
             setMovie(movieData)
             setTrailer(trailerData.results)
             setCast(castData.credits.cast);
