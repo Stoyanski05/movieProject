@@ -58,7 +58,7 @@ export default function Home() {
           <section className="flex justify-between w-[90%] m-auto">
             <Category heading="popular" />
           </section>
-          <article className="flex flex-col w-full gap-4 pl-6 overflow-x-hidden">
+          <article className="flex flex-col w-full gap-4 pl-6 pb-32 overflow-x-hidden">
             {popular.map((movie) => {
               return (
                 <Link href={`/${movie?.id}`} key={movie?.id} className="flex gap-2 h-40">

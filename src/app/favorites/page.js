@@ -46,7 +46,7 @@ export default function Home() {
                 <h1 className="text-center text-2xl font-bold">MyMovie</h1>
                 {ref.current && <Toggle element={ref.current} />}
             </header>
-            <main className="flex flex-col gap-4 px-10">
+            <main className="flex flex-col gap-4 px-10 pb-32">
                 <div className="flex justify-between w-full">
                     <Category heading={'Favorites'} />
                 </div>
