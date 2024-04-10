@@ -12,7 +12,6 @@ import Toggle from "@/components/toggle"
 export default function Home() {
     const [favorites, setFavorites] = useState([])
     const [loader, setLoader] = useState(false)
-    const [isRef, setIsRef] = useState(false)
     const ref = useRef(null)
 
     useEffect(() => {
