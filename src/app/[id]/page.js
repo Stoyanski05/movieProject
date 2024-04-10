@@ -10,6 +10,9 @@ import Person from "@/components/person"
 import Runtime from "@/components/runtime"
 import Genre from "@/components/genre"
 
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import { FaArrowLeft, FaBookmark, FaRegBookmark } from "react-icons/fa6"
 
 export default function Home({ params }) {
@@ -60,8 +63,14 @@ export default function Home({ params }) {
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
                 },
                 body: JSON.stringify({ media_type: 'movie', media_id: params.id, favorite: !bookmarked })
-            }).then(res => res.json()).then(json => {
-                console.log(json)
+            }).then(res => res.json()).then(() => {
+                toast(`Movie Was ${!bookmarked ? 'Bookmarked' : 'Unbookmarked'}`, {
+                    position: 'top-center',
+                    autoClose: 1000,
+                    draggable: true,
+                    pauseOnHover: false,
+                    hideProgressBar: true
+                })
                 setBookmarked(!bookmarked)
             })
 
@@ -125,6 +134,7 @@ export default function Home({ params }) {
                     </div>
                 </article>
             </main>
+            <ToastContainer />
         </>
     )
 }

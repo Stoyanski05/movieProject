@@ -4,10 +4,14 @@ import Category from "@/components/category"
 import Footer from "@/components/footer"
 import Genre from "@/components/genre"
 import Rating from "@/components/rating"
-import { useEffect, useRef, useState } from "react"
-import { FaClock } from "react-icons/fa6"
 import Image from 'next/image'
 import Toggle from "@/components/toggle"
+
+import { useEffect, useRef, useState } from "react"
+import { FaClock } from "react-icons/fa6"
+
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function Home() {
     const [favorites, setFavorites] = useState([])
@@ -36,7 +40,16 @@ export default function Home() {
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
                 },
                 body: JSON.stringify({ media_type: 'movie', media_id: e.target.dataset.id, favorite: false })
-            }).then(res => res.json()).then(json => setLoader(!loader))
+            }).then(res => res.json()).then(() => {
+                toast("Movie Was Removed", {
+                    position: 'top-center',
+                    autoClose: 1000,
+                    draggable: true,
+                    pauseOnHover: false,
+                    hideProgressBar: true
+                });
+                setLoader(!loader)
+            })
         })()
     }
 
@@ -73,6 +86,7 @@ export default function Home() {
                 })}
             </main>
             <Footer page={'bookmark'} />
+            <ToastContainer />
         </div>
     )
 }
