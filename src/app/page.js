@@ -19,12 +19,15 @@ import { useSearchParams } from "next/navigation";
 export default function Home() {
   const [popular, setPopular] = useState([])
   const [trending, setTrending] = useState([])
+  const [token, setToken] = useState(null)
 
   const ref = useRef(null)
 
   const searchParams = useSearchParams()
 
   useEffect(() => {
+    setToken(searchParams.get('request_token'))
+    
     (async () => {
       await fetch('https://api.themoviedb.org/3/authentication/session/new', {
         method: 'POST',
@@ -33,7 +36,7 @@ export default function Home() {
           accept: 'application/json',
           'content-type': 'application/json'
         },
-        body: JSON.stringify({ request_token: searchParams.get('request_token') })
+        body: JSON.stringify({ request_token: token })
       }).then(res => res.json()).then(data => {
         if (typeof window !== 'undefined') window.localStorage.setItem('session_id', data.session_id)
       })
