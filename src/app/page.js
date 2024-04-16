@@ -25,10 +25,10 @@ export default function Home() {
 
   const searchParams = useSearchParams()
 
-  useEffect(() => {
-    setToken(searchParams.get('request_token'))
-    
+  useEffect(() => {    
     (async () => {
+      setToken(searchParams.get('request_token'))
+
       await fetch('https://api.themoviedb.org/3/authentication/session/new', {
         method: 'POST',
         headers: {
