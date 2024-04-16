@@ -14,24 +14,26 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Home() {
-    const [userId, setUserId] = useState(null)
     const [favorites, setFavorites] = useState([])
     const [loader, setLoader] = useState(false)
     const ref = useRef(null)
 
     useEffect(() => {
         (async () => {
-            const userRes = await fetch(`https://api.themoviedb.org/3/account/account_id?session_id=${window.localStorage.getItem('session_id')}`, {
-                method: 'GET',
-                headers: {
-                    accept: 'application/json',
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
-                }
-            })
-            const { id } = await userRes.json()
-            setUserId(id)
+            if (!window.localStorage.getItem('userID')) {
+                const res = await fetch('https://api.themoviedb.org/3/authentication/token/new', {
+                    method: 'GET',
+                    headers: {
+                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
+                    }
+                })
+                
+                const { request_token } = await res.json()
 
-            const favoriteRes = await fetch(`https://api.themoviedb.org/3/account/${userId}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`, {
+                window.location.href = `https://www.themoviedb.org/authenticate/${request_token}?redirect_to=http://localhost:3000/`
+            }
+
+            const favoriteRes = await fetch(`https://api.themoviedb.org/3/account/${window.localStorage.getItem('userID')}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`, {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
@@ -45,7 +47,7 @@ export default function Home() {
 
     function removeHandler(e) {
         (async () => {
-            await fetch(`https://api.themoviedb.org/3/account/${userId}/favorite`, {
+            await fetch(`https://api.themoviedb.org/3/account/${window.localStorage.getItem('userID')}/favorite`, {
                 method: 'POST',
                 headers: {
                     accept: 'application/json',

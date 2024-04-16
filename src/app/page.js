@@ -19,16 +19,14 @@ import { useSearchParams } from "next/navigation";
 export default function Home() {
   const [popular, setPopular] = useState([])
   const [trending, setTrending] = useState([])
-  const [token, setToken] = useState(null)
 
   const ref = useRef(null)
 
   const searchParams = useSearchParams()
 
-  useEffect(() => {    
-    (async () => {
-      setToken(searchParams.get('request_token'))
+  useEffect(() => {
 
+    (async () => {
       await fetch('https://api.themoviedb.org/3/authentication/session/new', {
         method: 'POST',
         headers: {
@@ -36,9 +34,19 @@ export default function Home() {
           accept: 'application/json',
           'content-type': 'application/json'
         },
-        body: JSON.stringify({ request_token: token })
-      }).then(res => res.json()).then(data => {
-        if (typeof window !== 'undefined') window.localStorage.setItem('session_id', data.session_id)
+        body: JSON.stringify({ request_token: searchParams.get('request_token') })
+      }).then(res => res.json()).then(async data => {
+        await fetch(`https://api.themoviedb.org/3/account/account_id?session_id=${data.session_id}`, {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
+          }
+        }).then(res => res.json()).then(session => {
+          window.localStorage.setItem('userID', session.id)
+
+          console.log(window.localStorage.getItem('userID'))
+        })
       })
 
       const popularRes = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=d61d03c4897622853f09d1e0b7a41c5b&page=1`, { cache: "force-cache" })
