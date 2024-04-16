@@ -9,24 +9,51 @@ import Toggle from "@/components/toggle"
 
 import { useEffect, useRef, useState } from "react"
 import { FaClock } from "react-icons/fa6"
+import { useSearchParams } from 'next/navigation'
 
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Home() {
+    const [userId, setUserId] = useState(null)
     const [favorites, setFavorites] = useState([])
     const [loader, setLoader] = useState(false)
     const ref = useRef(null)
 
+    const searchParams = useSearchParams()
+
     useEffect(() => {
         (async () => {
-            await fetch('https://api.themoviedb.org/3/account/17339790/favorite/movies?language=en-US&page=1&sort_by=created_at.asc', {
+            const sessionRes = await fetch('https://api.themoviedb.org/3/authentication/session/new', {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0',
+                    accept: 'application/json',
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({ request_token: searchParams.get('request_token') })
+            })
+            const { session_id } = await sessionRes.json()
+
+            const userRes = await fetch(`https://api.themoviedb.org/3/account/account_id?session_id=${session_id}`, {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
                 }
-            }).then(res => res.json()).then(data => setFavorites(data.results))
+            })
+            const { id } = await userRes.json()
+            setUserId(id)
+
+            const favoriteRes = await fetch(`https://api.themoviedb.org/3/account/${userId}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`, {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
+                }
+            })
+            const { results } = await favoriteRes.json()
+            setFavorites(results)
         })()
     }, [loader])
 

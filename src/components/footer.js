@@ -14,7 +14,9 @@ export default function Footer({ page }) {
                     </Link>
                 </li>
                 <li>
-                    <FaTicket className={`${page == 'unknown' && 'text-[#D6D6FD]'} rotate-90 border-black`} size={30} />
+                    <Link href='/login'>
+                        <FaTicket className={`${page == 'login' && 'text-[#D6D6FD]'} rotate-90 border-black`} size={30} />
+                    </Link>
                 </li>
                 <li>
                     <Link href='/favorites'>
