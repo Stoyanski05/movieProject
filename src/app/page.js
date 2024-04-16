@@ -13,6 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FaClock } from "react-icons/fa6";
+import { useSearchParams } from "next/navigation";
 
 
 export default function Home() {
@@ -21,12 +22,26 @@ export default function Home() {
 
   const ref = useRef(null)
 
+  const searchParams = useSearchParams()
+
   useEffect(() => {
     (async () => {
-      const popularRes = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=d61d03c4897622853f09d1e0b7a41c5b&page=1`, {cache: "force-cache"})
+      await fetch('https://api.themoviedb.org/3/authentication/session/new', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0',
+          accept: 'application/json',
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({ request_token: searchParams.get('request_token') })
+      }).then(res => res.json()).then(data => {
+        if (typeof window !== 'undefined') window.localStorage.setItem('session_id', data.session_id)
+      })
+
+      const popularRes = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=d61d03c4897622853f09d1e0b7a41c5b&page=1`, { cache: "force-cache" })
       const popularData = await popularRes.json()
 
-      const trendingRes = await fetch(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`, {cache: "force-cache"})
+      const trendingRes = await fetch(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=d61d03c4897622853f09d1e0b7a41c5b`, { cache: "force-cache" })
       const trendingData = await trendingRes.json()
 
       // Descendingly sort the higher rated movies
@@ -42,7 +57,7 @@ export default function Home() {
       <header className="h-[100px] mb-2">
         <div className="flex justify-between h-full items-center w-2/3 px-6 float-right">
           <h1 className="text-2xl font-bold">MyMovie</h1>
-          {ref.current && <Toggle element={ref.current}/>}
+          {ref.current && <Toggle element={ref.current} />}
         </div>
       </header>
       <main className="flex flex-col gap-6 m-auto">
@@ -51,7 +66,7 @@ export default function Home() {
             <Category heading="now showing" />
           </section>
           <article className="flex gap-4 px-6 h-[365px] overflow-x-scroll overflow-y-hidden">
-            <Slider array={trending}/>
+            <Slider array={trending} />
           </article>
         </div>
         <div className="flex flex-col gap-4">
@@ -69,10 +84,10 @@ export default function Home() {
                       <Rating rating={movie?.vote_average} />
                     </div>
                     <div className={`flex flex-nowrap gap-2 pr-12 ${movie?.genre_ids.length > 3 ? '' : 'overflow-x-hidden'} overflow-y-hidden`}>
-                      <Genre ids={movie?.genre_ids}/>
+                      <Genre ids={movie?.genre_ids} />
                     </div>
                     <span className="flex items-center gap-2">
-                      <FaClock/>
+                      <FaClock />
                       1h 10min
                     </span>
                   </div>
@@ -82,7 +97,7 @@ export default function Home() {
           </article>
         </div>
       </main>
-      <Footer page={'home'}/>
+      <Footer page={'home'} />
     </div>
   );
 }

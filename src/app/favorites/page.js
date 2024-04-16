@@ -9,7 +9,6 @@ import Toggle from "@/components/toggle"
 
 import { useEffect, useRef, useState } from "react"
 import { FaClock } from "react-icons/fa6"
-import { useSearchParams } from 'next/navigation'
 
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -20,22 +19,9 @@ export default function Home() {
     const [loader, setLoader] = useState(false)
     const ref = useRef(null)
 
-    const searchParams = useSearchParams()
-
     useEffect(() => {
         (async () => {
-            const sessionRes = await fetch('https://api.themoviedb.org/3/authentication/session/new', {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0',
-                    accept: 'application/json',
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify({ request_token: searchParams.get('request_token') })
-            })
-            const { session_id } = await sessionRes.json()
-
-            const userRes = await fetch(`https://api.themoviedb.org/3/account/account_id?session_id=${session_id}`, {
+            const userRes = await fetch(`https://api.themoviedb.org/3/account/account_id?session_id=${window.localStorage.getItem('session_id')}`, {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
@@ -59,7 +45,7 @@ export default function Home() {
 
     function removeHandler(e) {
         (async () => {
-            await fetch('https://api.themoviedb.org/3/account/17339790/favorite', {
+            await fetch(`https://api.themoviedb.org/3/account/${userId}/favorite`, {
                 method: 'POST',
                 headers: {
                     accept: 'application/json',
@@ -69,7 +55,7 @@ export default function Home() {
                 body: JSON.stringify({ media_type: 'movie', media_id: e.target.dataset.id, favorite: false })
             }).then(res => res.json()).then(() => {
                 toast("Movie Was Removed", {
-                    position: 'top-center',
+                    position: 'bottom-center',
                     autoClose: 1000,
                     draggable: true,
                     pauseOnHover: false,
