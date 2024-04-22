@@ -1,7 +1,7 @@
 "use client"
 
 
-import { FaHouse, FaRegBookmark, FaTicket } from "react-icons/fa6";
+import { FaHouse, FaRegBookmark, FaTicket, FaSearchengin } from "react-icons/fa6";
 import Link from 'next/link'
 
 export default function Footer({ page }) {
@@ -14,13 +14,18 @@ export default function Footer({ page }) {
                     </Link>
                 </li>
                 <li>
+                    <Link href='/browse'>
+                        <FaSearchengin className={page == 'browse' && 'text-[#D6D6FD]'} size={30}/>
+                    </Link>
+                </li>
+                <li>
                     <Link href='/login'>
                         <FaTicket className={`${page == 'login' && 'text-[#D6D6FD]'} rotate-90 border-black`} size={30} />
                     </Link>
                 </li>
                 <li>
                     <Link href='/favorites'>
-                        <FaRegBookmark className={page == 'bookmark' && 'text-[#D6D6FD]'} size={30} />
+                        <FaRegBookmark className={page == 'favorites' && 'text-[#D6D6FD]'} size={30} />
                     </Link>
                 </li>
             </ul>

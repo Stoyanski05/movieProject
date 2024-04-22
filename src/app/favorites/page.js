@@ -26,7 +26,7 @@ export default function Home() {
                 const res = await fetch('https://api.themoviedb.org/3/authentication/token/new', {
                     method: 'GET',
                     headers: {
-                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
+                        Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY
                     }
                 })
                 
@@ -39,7 +39,7 @@ export default function Home() {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
+                    Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY
                 }
             })
             const { results } = await favoriteRes.json()
@@ -54,7 +54,7 @@ export default function Home() {
                 headers: {
                     accept: 'application/json',
                     'content-type': 'application/json',
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
+                    Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY
                 },
                 body: JSON.stringify({ media_type: 'movie', media_id: e.target.dataset.id, favorite: false })
             }).then(res => res.json()).then(() => {
@@ -102,7 +102,7 @@ export default function Home() {
                     )
                 })}
             </main>
-            <Footer page={'bookmark'} />
+            <Footer page={'favorites'} />
             <ToastContainer />
         </div>
     )

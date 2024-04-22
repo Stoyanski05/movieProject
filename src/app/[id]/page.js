@@ -34,7 +34,7 @@ export default function Home({ params }) {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
+                    Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY
                 }
             }).then(res => res.json()).then(data => data.results.map(obj => {
                 if (obj.id == params.id) setBookmarked(true)
@@ -62,7 +62,7 @@ export default function Home({ params }) {
                 headers: {
                     accept: 'application/json',
                     'content-type': 'application/json',
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjFkMDNjNDg5NzYyMjg1M2YwOWQxZTBiN2E0MWM1YiIsInN1YiI6IjYzZTI0YmFiNTI4YjJlMDA3ZDVlZGRiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.KHlKs9hmsElURN4IXdAcNb-Fs6UzxGJvQVPsJwuQBl0'
+                    Authorization: 'Bearer ' + process.env.NEXT_PUBLIC_API_KEY
                 },
                 body: JSON.stringify({ media_type: 'movie', media_id: params.id, favorite: !bookmarked })
             }).then(res => res.json()).then(() => {
