@@ -67,7 +67,7 @@ export default function Home({ params }) {
                 body: JSON.stringify({ media_type: 'movie', media_id: params.id, favorite: !bookmarked })
             }).then(res => res.json()).then(() => {
                 toast(`Movie Was ${!bookmarked ? 'Bookmarked' : 'Unbookmarked'}`, {
-                    position: 'top-center',
+                    position: 'bottom-center',
                     autoClose: 1000,
                     draggable: true,
                     pauseOnHover: false,
