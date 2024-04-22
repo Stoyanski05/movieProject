@@ -14,6 +14,8 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Home() {
+    if (!window.localStorage.getItem('userID')) window.location.href = '/login' 
+
     const [favorites, setFavorites] = useState([])
     const [loader, setLoader] = useState(false)
     const ref = useRef(null)
@@ -81,20 +83,20 @@ export default function Home() {
                 {favorites.map(bookmark => {
                     return (
                         <div key={bookmark?.id} className="flex gap-2 h-40">
-                            <Image src={`https://image.tmdb.org/t/p/original/${bookmark?.poster_path}`} height={100} width={120} className="rounded-md object-cover" alt="bookmark" />
+                            <Image src={`https://image.tmdb.org/t/p/original/${bookmark.poster_path}`} height={100} width={120} className="rounded-md object-cover" alt="bookmark" />
                             <div className="flex flex-col justify-evenly w-3/4">
-                                <h2 className="font-bold">{bookmark?.title}</h2>
+                                <h2 className="font-bold">{bookmark.title}</h2>
                                 <div className="flex items-center gap-2">
-                                    <Rating rating={bookmark?.vote_average} />
+                                    <Rating rating={bookmark.vote_average} />
                                 </div>
-                                <div className={`flex flex-nowrap gap-2 pr-12 ${bookmark?.genre_ids.length > 3 ? '' : 'overflow-x-hidden'} overflow-y-hidden`}>
-                                    <Genre ids={bookmark?.genre_ids} />
+                                <div className={`flex flex-nowrap gap-2 pr-12 ${bookmark.genre_ids.length > 3 ? '' : 'overflow-x-hidden'} overflow-y-hidden`}>
+                                    <Genre ids={bookmark.genre_ids} />
                                 </div>
                                 <span className="flex items-center gap-2">
                                     <FaClock />
                                     1h 10min
                                 </span>
-                                <button data-id={bookmark?.id} onClick={removeHandler} className="px-4 py-1 w-fit bg-black rounded-full text-white">Remove</button>
+                                <button data-id={bookmark.id} onClick={removeHandler} className="px-4 py-1 w-fit bg-black rounded-full text-white">Remove</button>
                             </div>
                         </div>
                     )

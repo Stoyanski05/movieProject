@@ -44,8 +44,6 @@ export default function Home() {
           }
         }).then(res => res.json()).then(session => {
           window.localStorage.setItem('userID', session.id)
-
-          console.log(window.localStorage.getItem('userID'))
         })
       })
 

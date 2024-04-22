@@ -16,6 +16,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import { FaArrowLeft, FaBookmark, FaRegBookmark } from "react-icons/fa6"
 
 export default function Home({ params }) {
+    if (!window.localStorage.getItem('userID')) window.location.href = '/login' 
+
     const bookmarkRef = useRef(null)
     const ref = useRef(null)
 
@@ -53,9 +55,9 @@ export default function Home({ params }) {
         })()
     }, [loader])
 
-    function bookmarkHandler(e) {
+    function bookmarkHandler() {
         (async () => {
-            await fetch('https://api.themoviedb.org/3/account/17339790/favorite', {
+            await fetch(`https://api.themoviedb.org/3/account/${window.localStorage.getItem('userID')}/favorite`, {
                 method: 'POST',
                 headers: {
                     accept: 'application/json',
