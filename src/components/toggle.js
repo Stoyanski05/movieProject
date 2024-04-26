@@ -1,33 +1,38 @@
-"use client"
+import React, { useEffect, useState } from "react";
 
-import { useEffect, useState } from "react"
+export default function Toggle() {
+  // State to track dark mode
+  const [darkMode, setDarkMode] = useState(false);
+  // State to track the checked state of the toggle
+  const [isChecked, setIsChecked] = useState(false);
 
-import Image from 'next/image'
+  // Function to handle checkbox change
+  function checkHandler() {
+    // Toggle the isChecked state
+    setIsChecked(!isChecked);
+    // Toggle the darkMode state
+    setDarkMode(!darkMode);
+  }
 
-export default function Toggle({ element }) {
-    const [darkmode, setDarkmode] = useState(false)
-    const [isChecked, setIsChecked] = useState(false)
-
-    function checkHandler() {
-        setIsChecked(!isChecked)
-        setDarkmode(!darkmode)
+  // Effect to apply dark mode styles when darkMode or isChecked changes
+  useEffect(() => {
+    // Get the body element
+    const body = document.body;
+    // If dark mode is enabled
+    if (darkMode) {
+      // Add dark mode classes
+      body.classList.add('bg-black', 'text-white');
+      body.classList.remove('bg-white');
+    } else {
+      // Otherwise, add light mode classes
+      body.classList.remove('bg-black', 'text-white');
+      body.classList.add('bg-white');
     }
+  }, [darkMode, isChecked]); // Run the effect whenever darkMode or isChecked changes
 
-    useEffect(() => {
-        if (darkmode) {
-            element.classList.add('bg-black')
-            element.classList.add('text-white')
-            element.classList.remove('bg-white')
-        } else {
-            element.classList.remove('bg-black')
-            element.classList.remove('text-white')
-            element.classList.add('bg-white')
-        }
-    }, [isChecked])
-
-    return (
-        <label htmlFor="checkbox" className={`flex items-center cursor-pointer w-14 h-8 rounded-full`} >
-            <input type="checkbox" id="checkbox" className="sr-only" checked={isChecked} onChange={checkHandler} />
-        </label>
-    )
+  return (
+    <label htmlFor="checkbox" className={`flex items-center cursor-pointer w-14 h-8 rounded-full`} >
+      <input type="checkbox" id="checkbox" className="sr-only" checked={isChecked} onChange={checkHandler} />
+    </label>
+  );
 }
